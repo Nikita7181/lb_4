@@ -11,7 +11,7 @@ int Partition (std::vector <int> &vec, int start, int end) //принимает 
     int value = vec[end];
     int position = start;
     
-    for(int i = start; i < end-1; i++)
+    for(int i = start; i < end; i++)
     {
         if (vec[i] <= value)
         {
@@ -28,14 +28,13 @@ int Partition (std::vector <int> &vec, int start, int end) //принимает 
 
 void quicksort(std::vector<int> &vec, int start, int end)
 {
-    if(start >= end)
+    if(start > end)
     {
         return;
     }
-  int pivot = Partition(vec, start, end);
-  quicksort(vec, start, pivot-1);
-  quicksort(vec, pivot + 1, end);
-  
+    int pivot = Partition(vec, start, end);
+    quicksort(vec, start, pivot-1);
+    quicksort(vec, pivot + 1, end);
 }
 
 std::vector<int> Insertion_Sort(std::vector<int> vector)
@@ -54,7 +53,7 @@ std::vector<int> Fillarray(int size)
 {
     std::vector<int> arr;
     std::srand(std::time(nullptr));
-    for (int i = 0; i <= size; i++)
+    for (int i = 1; i <= size; i++)
     {
         arr.push_back(std::rand() % 201 - 100);
     }
