@@ -6,53 +6,45 @@ using std::endl;
 using std::cout;
 using std::cin;
 
-void swap(std::vector<int>& v, int x, int y)
+int Partition (std::vector <int> &vec, int start, int end) //принимает часть массива и относительно опорной функции переноси меньгие влево а большие вправо
 {
-    int temp = v[x];
-    v[x] = v[y];
-    v[y] = temp;
+    int value = vec[end];
+    int position = start;
     
-}
-
-void quicksort(std::vector<int> &vec, int L, int R)
-{
-    int i, j, mid, piv;
-    i = L;
-    j = R;
-    mid = L + (R - L) / 2;
-    piv = vec[mid];
-    
-    while (i<R || j>L)
+    for(int i = start; i < end-1; i++)
     {
-        while (vec[i] < piv)
-            i++;
-        while (vec[j] > piv)
-            j--;
-        
-        if (i <= j)
+        if (vec[i] <= value)
         {
-            swap(vec, i, j);
-            i++;
-            j--;
-        }
-        else
-            {
-            if (i < R)
-                quicksort(vec, i, R);
-            if (j > L)
-                quicksort(vec, L, j);
-            return;
+            int temp = vec[i];
+            vec[i] = vec[position];
+            vec[position] = temp;
+            position++;
         }
     }
+    vec[end] = vec[position];
+    vec[position] = value;
+    return position;
 }
 
-std::vector<int> insert_sort(std::vector<int> vector)
+void quicksort(std::vector<int> &vec, int start, int end)
+{
+    if(start >= end)
+    {
+        return;
+    }
+  int pivot = Partition(vec, start, end);
+  quicksort(vec, start, pivot-1);
+  quicksort(vec, pivot + 1, end);
+  
+}
+
+std::vector<int> Insertion_Sort(std::vector<int> vector)
 {
     for( int i=1; i<vector.size();++i)
     {
         for (int j=i; j>0 && vector[j-1]>vector[j];--j)
         {
-            std::swap(vector[j - i], vector[j]);
+            std::swap(vector[j-1],vector[j]);
         }
     }
     return vector;
@@ -69,7 +61,7 @@ std::vector<int> Fillarray(int size)
     return arr;
 }
 
-std::vector<int> SortMass(std::vector<int> vector)
+std::vector<int> Bubble_Sort(std::vector<int> vector)
 {
     bool h = true;
     while (h)
@@ -87,50 +79,40 @@ std::vector<int> SortMass(std::vector<int> vector)
     return vector;
 }
 
+void Print(std::vector<int> vector)
+{
+    for (int i : vector)
+    {
+        cout << i << endl;
+    }
+}
+
 int main ()
 {
     int size;
     cout << "Task 1" << endl;
-    cout << "size= " ;
+    cout << "size= ";
     cin >> size;
-    std::vector<int>b=Fillarray(size);
-    for(int i : b)
-    {
-        cout << i << endl;
-    }
+    std::vector<int>vec1=Fillarray(size);
+    Print(vec1);
     cout << "filter" << endl;
-    std::vector<int >output = SortMass(b);
-    for(int i : output)
-    {
-        cout << i << endl;
-    }
+    vec1 = Bubble_Sort (vec1);
+    Print (vec1);
     cout << "Task 2" << endl;
     cout << "size= ";
     cin >> size;
-    std::vector<int> a = Fillarray(size);
-    for(int i : a)
-    {
-        cout << i << endl;
-    }
+    std::vector<int> vec2 =Fillarray(size);
+    Print (vec2);
     cout << "filter" << endl;
-    std::vector<int> output2 = insert_sort(a);
-    for(int i : output2)
-    {
-        cout << i << endl;
-    }
+    vec2 = Insertion_Sort(vec2);
+    Print (vec2);
     cout << "Task 3" << endl;
     cout << "size= ";
     cin >> size;
-    std::vector<int> vec1 = Fillarray(size);
-    for(int i : vec1)
-    {
-        cout << i << endl;
-    }
+    std::vector<int> vec3 = Fillarray(size);
+    Print (vec3);
     cout << "filter" << endl;
-    quicksort(vec1, 0, size - 1);
-    for(int i : vec1)
-    {
-        cout << i << endl;
-    }
+    quicksort(vec3, 0, size-1);
+    Print (vec3);
     return 0;
 }
